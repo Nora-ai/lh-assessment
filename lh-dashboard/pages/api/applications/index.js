@@ -9,7 +9,7 @@ export default async function AppRequests(req, res) {
   switch(method) {
     case 'GET':
       try {
-        const applications = await Application.find({})
+        const applications = await Application.find({}) //.populate("cohort")
 
         res.status(200).json({ success: true, data: applications })
       } catch(error) {
