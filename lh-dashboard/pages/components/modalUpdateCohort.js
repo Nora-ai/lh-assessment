@@ -35,7 +35,8 @@ const {_id, full_name, cohort, products} = data
                 variant="standard"/>
             <TextField 
                 id="cohort" 
-                value={cohort.name}
+                value={cohort}
+                // value={cohort.name}
                 onChange={e=>onChange(e)}
                 placeholder="Cohort" 
                 label="Cohort" 

@@ -24,10 +24,12 @@ const Index = ({ applications }) => {
 
   const [colDefs, setColDefs] = useState([
     { headerName: "Full name", field: "full_name" },
-    { headerName: "Cohort", field: "cohort.name" },
-    { headerName: "Products", field: "products", valueGetter: (params) => {
-      return params.data.products.map(product => product.name).toString()
-    } },
+    { headerName: "Cohort", field: "cohort" },
+    // { headerName: "Cohort", field: "cohort.name" },
+    { headerName: "Products", field: "products"},
+    // { headerName: "Products", field: "products", valueGetter: (params) => {
+    //   return params.data.products.map(product => product.name).toString()
+    // } },
     {
       headerName: "Actions",
       field: "id",
@@ -74,7 +76,7 @@ const Index = ({ applications }) => {
         full_name: formData.full_name,
         cohort: formData.cohort,
       }
-      console.log("here is the new form", newForm)
+      //console.log("here is the new form", newForm)
 
       if (typeof(formData.products) === 'object') {
         newForm.products = [...formData.products]
