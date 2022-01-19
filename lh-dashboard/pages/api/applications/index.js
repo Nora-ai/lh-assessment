@@ -1,5 +1,7 @@
 import dbConnect from '../../../utils/dbConnect'
 import Application from '../../../models/Application'
+import Cohort from '../../../models/Cohort'
+import Product from '../../../models/Product'
 
 dbConnect();
 
@@ -9,10 +11,11 @@ export default async function AppRequests(req, res) {
   switch(method) {
     case 'GET':
       try {
-        const applications = await Application.find()//.populate('cohort')
-
+        const applications = await Application.find({}).populate('cohort').populate('products')
+    
         res.status(200).json({ success: true, data: applications })
       } catch(error) {
+        console.log(error)
         res.status(400).json({ success: false })
       }
       break

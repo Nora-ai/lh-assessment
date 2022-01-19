@@ -24,8 +24,10 @@ const Index = ({ applications }) => {
 
   const [colDefs, setColDefs] = useState([
     { headerName: "Full name", field: "full_name" },
-    { headerName: "Cohort", field: "cohort" },
-    { headerName: "Products", field: "products" },
+    { headerName: "Cohort", field: "cohort.name" },
+    { headerName: "Products", field: "products", valueGetter: (params) => {
+      return params.data.products.map(product => product.name).toString()
+    } },
     {
       headerName: "Actions",
       field: "id",
@@ -66,12 +68,27 @@ const Index = ({ applications }) => {
   const handleFormUpdate = (data) => {
     console.log(data);
     if (data._id) {
+
+      const newForm = {
+        _id: formData._id,
+        full_name: formData.full_name,
+        cohort: formData.cohort,
+      }
+      console.log("here is the new form", newForm)
+
+      if (typeof(formData.products) === 'object') {
+        newForm.products = [...formData.products]
+      } else {
+        let formattedArray = formData.products.split(", ")
+        newForm.products = [...formattedArray]
+      }
+
       fetch(`${url}/${data._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ formData }),
+        body: JSON.stringify( newForm ),
       })
         .then((res) => res.json())
         .then((res) => {
@@ -123,12 +140,13 @@ const Index = ({ applications }) => {
 
   const handleDeleteCohort = (data) => {
     console.log(data);
+    // set data.cohort = " " and then fetch
     fetch(`${url}/${data._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify((data.cohort = " ")),
+      body: JSON.stringify({ formData }),
     })
       .then((res) => res.json())
       .then((res) => {
@@ -140,6 +158,11 @@ const Index = ({ applications }) => {
     //handle an array of products
     //put request
   };
+
+  const handleAddProduct = () => {
+    //add post request for adding new product
+    //add new input box
+  }
 
   //search
   const onFilterTextChange = (e) => {
@@ -164,20 +187,18 @@ const Index = ({ applications }) => {
 
   return (
     <div className="ag-theme-balham-dark" style={{ height: 500, width: "85%", margin: "0 auto" }}>
-      {/* <Grid>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            setFormData({ full_name: "", cohort: "", products: [] });
-            handleClickOpen();
-          }}
-        >
-          Add Application
-        </Button>
-      </Grid> */}
 
-   
+   {formData._id ? 
+     <FormUpdate
+     open={open}
+     handleClose={handleClose}
+     data={formData}
+     onChange={onChange}
+     handleFormUpdate={handleFormUpdate}
+     handleDeleteCohort={handleDeleteCohort}
+     handleDeleteProduct={handleDeleteProduct}
+     handleAddProduct={handleAddProduct}
+   /> :
       <FormDialog
         open={open}
         handleClose={handleClose}
@@ -185,15 +206,7 @@ const Index = ({ applications }) => {
         onChange={onChange}
         handleFormSubmit={handleFormSubmit}
       />
-      <FormUpdate
-        open={open}
-        handleClose={handleClose}
-        data={formData}
-        onChange={onChange}
-        handleFormUpdate={handleFormUpdate}
-        handleDeleteCohort={handleDeleteCohort}
-        handleDeleteProduct={handleDeleteProduct}
-      />
+   }
       <div style={searchDiv}>
       <input type="search" style={searchStyle} placeholder="search" onChange={onFilterTextChange} />
       <button onClick={() => {

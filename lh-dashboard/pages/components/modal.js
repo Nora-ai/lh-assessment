@@ -5,21 +5,21 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { ThemeProvider, createTheme } from '@material-ui/core';
+//import { ThemeProvider, createTheme } from '@material-ui/core';
 
 export default function FormDialog({open, handleClose, data, onChange, handleFormSubmit}) {
 
 const {_id, full_name, cohort, products} = data
 
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-})
+// const theme = createTheme({
+//   palette: {
+//     mode: 'dark',
+//   },
+// })
      
   return (
     <div>
-      <ThemeProvider darkTheme={darkTheme}>
+      {/* <ThemeProvider theme={theme}> */}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{"Create new application"}</DialogTitle>
         <DialogContent>
@@ -38,6 +38,7 @@ const darkTheme = createTheme({
                 value={cohort}
                 onChange={e=>onChange(e)}
                 placeholder="Cohort" 
+                required
                 label="Cohort" 
                 margin="dense" 
                 fullWidth
@@ -46,7 +47,8 @@ const darkTheme = createTheme({
                 id="products"
                 value={products}
                 onChange={e=>onChange(e)}
-                placeholder="Product" 
+                placeholder="Product"
+                required 
                 label="Product" 
                 margin="dense" 
                 fullWidth
@@ -59,7 +61,7 @@ const darkTheme = createTheme({
           <Button onClick={handleClose}>Cancel</Button>
         </DialogActions>
       </Dialog>
-      </ThemeProvider>
+      {/* </ThemeProvider> */}
     </div>
   );
 }

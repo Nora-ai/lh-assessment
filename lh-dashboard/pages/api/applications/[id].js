@@ -1,6 +1,5 @@
 import dbConnect from '../../../utils/dbConnect'
 import Application from '../../../models/Application'
-import Cohort from '../../../models/Cohort';
 
 dbConnect();
 
@@ -13,9 +12,8 @@ export default async function ApplicationRequestById(req, res) {
   switch(method) {
       case 'GET':
           try {
-            const application = await Application.findById(id).populate('cohort').exec((err, Cohort) => {console.log("Populated Applicatiton " + Cohort)})
-
-
+            const application = await Application.findById(id)
+                
             if (!application) {
                 return res.status(400).json({ success: false})
             }
@@ -27,6 +25,7 @@ export default async function ApplicationRequestById(req, res) {
         break
     case 'PUT':
         try {
+            console.log(req.body)
             const application = await Application.findByIdAndUpdate(id, req.body, {
                 new: true,
                 runValidators: true
@@ -37,7 +36,7 @@ export default async function ApplicationRequestById(req, res) {
             }
             res.status(200).json({ success: true, data: application})
         } catch(error) {
-            res.status(400).json({ success: false })
+            res.status(400).json({ error: error })
         }
         break
     case 'DELETE':

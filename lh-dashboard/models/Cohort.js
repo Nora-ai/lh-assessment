@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 const CohortSchema = new Schema(
   { object: { type: String, default: "cohort" },
-    name: { type: String, required: true, unique: true} },
+    name: { type: String, unique: true} },
   { minimize: false, timestamps: true, collection: "cohorts" }
 );
 

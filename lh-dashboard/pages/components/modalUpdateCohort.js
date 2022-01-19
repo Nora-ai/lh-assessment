@@ -5,21 +5,21 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { ThemeProvider, createTheme } from '@material-ui/core';
+// import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-export default function FormUpdate({open, handleClose, data, onChange, handleFormUpdate, handleDeleteCohort, handleDeleteProduct}) {
+// const darkTheme = createTheme({
+//   palette: {
+//     mode: 'dark',
+//   },
+// })
+
+export default function FormUpdate({open, handleClose, data, onChange, handleFormUpdate, handleDeleteCohort, handleDeleteProduct, handleAddProduct}) {
 
 const {_id, full_name, cohort, products} = data
-
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-})
-     
+    
   return (
     <div>
-      <ThemeProvider darkTheme={darkTheme}>
+      {/* <ThemeProvider darkTheme={darkTheme}> */}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{"Update Application"}</DialogTitle>
         <DialogContent>
@@ -35,7 +35,7 @@ const darkTheme = createTheme({
                 variant="standard"/>
             <TextField 
                 id="cohort" 
-                value={cohort}
+                value={cohort.name}
                 onChange={e=>onChange(e)}
                 placeholder="Cohort" 
                 label="Cohort" 
@@ -53,6 +53,8 @@ const darkTheme = createTheme({
                 fullWidth
                 variant="standard"/>
                 <Button onClick={() => handleDeleteProduct(data)}>Remove</Button>
+                <Button onClick={() => handleAddProduct()}>Add</Button>
+                {/* add new textfield for adding product */}
         </form>
           
         </DialogContent>
@@ -61,7 +63,7 @@ const darkTheme = createTheme({
           <Button onClick={handleClose}>Cancel</Button>
         </DialogActions>
       </Dialog>
-      </ThemeProvider>
+      {/* </ThemeProvider> */}
     </div>
   );
 }
