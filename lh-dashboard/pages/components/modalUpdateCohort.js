@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { ThemeProvider, createTheme } from '@material-ui/core';
 
-export default function FormDialog({open, handleClose, data, onChange, handleFormSubmit}) {
+export default function FormUpdate({open, handleClose, data, onChange, handleFormUpdate, handleDeleteCohort, handleDeleteProduct}) {
 
 const {_id, full_name, cohort, products} = data
 
@@ -21,7 +21,7 @@ const darkTheme = createTheme({
     <div>
       <ThemeProvider darkTheme={darkTheme}>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{"Create new application"}</DialogTitle>
+        <DialogTitle>{"Update Application"}</DialogTitle>
         <DialogContent>
           <form>
             <TextField 
@@ -42,6 +42,7 @@ const darkTheme = createTheme({
                 margin="dense" 
                 fullWidth
                 variant="standard"/>
+                <Button onClick={() => handleDeleteCohort(data)}>Remove</Button>
             <TextField 
                 id="products"
                 value={products}
@@ -51,11 +52,12 @@ const darkTheme = createTheme({
                 margin="dense" 
                 fullWidth
                 variant="standard"/>
+                <Button onClick={() => handleDeleteProduct(data)}>Remove</Button>
         </form>
           
         </DialogContent>
         <DialogActions>
-          <Button onClick={()=>handleFormSubmit(data)}>{"Submit"}</Button>
+          <Button onClick={()=>handleFormUpdate(data)}>{"Update"}</Button>
           <Button onClick={handleClose}>Cancel</Button>
         </DialogActions>
       </Dialog>

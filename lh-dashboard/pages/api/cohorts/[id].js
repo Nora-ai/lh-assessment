@@ -12,7 +12,7 @@ export default async function CohortRequestById(req, res) {
   switch(method) {
       case 'GET':
           try {
-            const cohort = await Cohort.findById(id)
+            const cohort = await Cohort.findById(id).populate('name')
 
             if (!cohort) {
                 return res.status(400).json({ success: false})

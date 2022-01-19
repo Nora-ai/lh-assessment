@@ -1,5 +1,6 @@
 import dbConnect from '../../../utils/dbConnect'
 import Application from '../../../models/Application'
+import Cohort from '../../../models/Cohort';
 
 dbConnect();
 
@@ -12,7 +13,8 @@ export default async function ApplicationRequestById(req, res) {
   switch(method) {
       case 'GET':
           try {
-            const application = await Application.findById(id)
+            const application = await Application.findById(id).populate('cohort').exec((err, Cohort) => {console.log("Populated Applicatiton " + Cohort)})
+
 
             if (!application) {
                 return res.status(400).json({ success: false})
