@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { AgGridColumn, AgGridReact } from "ag-grid-react";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
 import FormDialog from "./components/modal";
 import FormUpdate from "./components/modalUpdateCohort";
+import { useRouter } from 'next/router'
 
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham-dark.css";
@@ -44,10 +43,9 @@ const Index = ({ applications }) => {
   const [gridApi, setGridApi] = useState(null);
   const [gridColumnApi, setGridColumnApi] = useState(null);
 
-  //state for modal window
+  //modal window
   const [open, setOpen] = useState(false);
 
-  //state for adding new application
   const [formData, setFormData] = useState({
     full_name: "",
     cohort: "",
@@ -66,6 +64,8 @@ const Index = ({ applications }) => {
     const { value, id } = e.target;
     setFormData({ ...formData, [id]: value });
   };
+
+  const router = useRouter()
 
   const handleFormUpdate = (data) => {
     console.log(data);
@@ -97,7 +97,8 @@ const Index = ({ applications }) => {
           console.log(res), handleClose();
         });
     }
-  };
+    router.reload(window.location.pathname)
+  }
 
   const handleFormSubmit = () => {
     console.log(formData);
@@ -114,6 +115,7 @@ const Index = ({ applications }) => {
       .then((res) => {
         console.log(res), handleClose();
       });
+    router.reload(window.location.pathname)
   };
 
   const onGridReady = (params) => {
@@ -140,31 +142,31 @@ const Index = ({ applications }) => {
     handleClickOpen();
   };
 
-  const handleDeleteCohort = (data) => {
-    console.log(data);
-    // set data.cohort = " " and then fetch
-    fetch(`${url}/${data._id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ formData }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res), handleClose();
-      });
-  };
+  // const handleDeleteCohort = (data) => {
+  //   console.log(data);
+  //   // set data.cohort = " " and then fetch
+  //   fetch(`${url}/${data._id}`, {
+  //     method: "PUT",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({ formData }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       console.log(res), handleClose();
+  //     });
+  // };
 
-  const handleDeleteProduct = (data) => {
-    //handle an array of products
-    //put request
-  };
+  // const handleDeleteProduct = (data) => {
+  //   //handle an array of products
+  //   //put request
+  // };
 
-  const handleAddProduct = () => {
-    //add post request for adding new product
-    //add new input box
-  }
+  // const handleAddProduct = () => {
+  //   //add post request for adding new product
+  //   //add new input box
+  // }
 
   //search
   const onFilterTextChange = (e) => {
@@ -172,35 +174,28 @@ const Index = ({ applications }) => {
   };
 
   const searchDiv = {
-    backgroundColor: "#f5eea8",
-    padding: 5,
-    display: "flex",
-    justifyContent: "space-between"
-
+    backgroundColor: "#f5eea8", padding: 5, display: "flex", justifyContent: "space-between"
   }
 
   const searchStyle = {
-    width: "75%",
-    borderRadius: 15,
-    outline: 0,
-    border: 'none'
-
+    width: "75%", borderRadius: 15, outline: 0, border: 'none'
   }
+
 
   return (
     <div className="ag-theme-balham-dark" style={{ height: 500, width: "85%", margin: "0 auto" }}>
-
-   {formData._id ? 
-     <FormUpdate
-     open={open}
-     handleClose={handleClose}
-     data={formData}
-     onChange={onChange}
-     handleFormUpdate={handleFormUpdate}
-     handleDeleteCohort={handleDeleteCohort}
-     handleDeleteProduct={handleDeleteProduct}
-     handleAddProduct={handleAddProduct}
-   /> :
+      {formData._id ? 
+        <FormUpdate
+        open={open}
+        handleClose={handleClose}
+        data={formData}
+        onChange={onChange}
+        handleFormUpdate={handleFormUpdate}
+        // handleDeleteCohort={handleDeleteCohort}
+        // handleDeleteProduct={handleDeleteProduct}
+        // handleAddProduct={handleAddProduct}
+      /> 
+      :
       <FormDialog
         open={open}
         handleClose={handleClose}
@@ -208,7 +203,7 @@ const Index = ({ applications }) => {
         onChange={onChange}
         handleFormSubmit={handleFormSubmit}
       />
-   }
+      }
       <div style={searchDiv}>
       <input type="search" style={searchStyle} placeholder="search" onChange={onFilterTextChange} />
       <button onClick={() => {
@@ -221,6 +216,7 @@ const Index = ({ applications }) => {
       <AgGridReact
         defaultColDef={{ editable: true, sortable: true, filterable: true }}
         pagination={true}
+        paginationPageSize={50}
         rowData={rowData}
         columnDefs={colDefs}
         onGridReady={onGridReady}

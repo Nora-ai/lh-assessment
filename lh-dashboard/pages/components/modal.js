@@ -5,21 +5,14 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-//import { ThemeProvider, createTheme } from '@material-ui/core';
 
 export default function FormDialog({open, handleClose, data, onChange, handleFormSubmit}) {
 
-const {_id, full_name, cohort, products} = data
+const {full_name, cohort, products} = data
 
-// const theme = createTheme({
-//   palette: {
-//     mode: 'dark',
-//   },
-// })
      
   return (
     <div>
-      {/* <ThemeProvider theme={theme}> */}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{"Create new application"}</DialogTitle>
         <DialogContent>
@@ -57,11 +50,10 @@ const {_id, full_name, cohort, products} = data
           
         </DialogContent>
         <DialogActions>
-          <Button onClick={()=>handleFormSubmit(data)}>{"Submit"}</Button>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button variant="secondary" onClick={()=>handleFormSubmit(data)}>Submit</Button>
+          <Button variant="secondary" onClick={handleClose}>Cancel</Button>
         </DialogActions>
       </Dialog>
-      {/* </ThemeProvider> */}
     </div>
   );
 }

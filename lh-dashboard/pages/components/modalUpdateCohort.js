@@ -5,21 +5,13 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-// import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-// const darkTheme = createTheme({
-//   palette: {
-//     mode: 'dark',
-//   },
-// })
+export default function FormUpdate({open, handleClose, data, onChange, handleFormUpdate}) {
 
-export default function FormUpdate({open, handleClose, data, onChange, handleFormUpdate, handleDeleteCohort, handleDeleteProduct, handleAddProduct}) {
-
-const {_id, full_name, cohort, products} = data
+const {full_name, cohort, products} = data
     
   return (
     <div>
-      {/* <ThemeProvider darkTheme={darkTheme}> */}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{"Update Application"}</DialogTitle>
         <DialogContent>
@@ -43,7 +35,7 @@ const {_id, full_name, cohort, products} = data
                 margin="dense" 
                 fullWidth
                 variant="standard"/>
-                <Button onClick={() => handleDeleteCohort(data)}>Remove</Button>
+                {/* <Button onClick={() => handleDeleteCohort(data)}>Remove</Button> */}
             <TextField 
                 id="products"
                 value={products}
@@ -53,18 +45,16 @@ const {_id, full_name, cohort, products} = data
                 margin="dense" 
                 fullWidth
                 variant="standard"/>
-                <Button onClick={() => handleDeleteProduct(data)}>Remove</Button>
-                <Button onClick={() => handleAddProduct()}>Add</Button>
-                {/* add new textfield for adding product */}
+                {/* <Button onClick={() => handleDeleteProduct(data)}>Remove</Button>
+                <Button onClick={() => handleAddProduct()}>Add</Button> */}
         </form>
           
         </DialogContent>
         <DialogActions>
-          <Button onClick={()=>handleFormUpdate(data)}>{"Update"}</Button>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button variant="secondary" onClick={()=>handleFormUpdate(data)}>Update</Button>
+          <Button variant="secondary" onClick={handleClose}>Cancel</Button>
         </DialogActions>
       </Dialog>
-      {/* </ThemeProvider> */}
     </div>
   );
 }
