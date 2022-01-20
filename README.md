@@ -7,5 +7,4 @@ Dashboard application for non-tech users to interact with data regarding applica
 - AG-Grid theme - Balham dark
 - Deployed via Heroku and Vercel
 
-## Deployed Link
 
